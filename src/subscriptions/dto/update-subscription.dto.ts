@@ -1,4 +1,23 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateSubscriptionDto } from './create-subscription.dto';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
-export class UpdateSubscriptionDto extends PartialType(CreateSubscriptionDto) {}
+/**
+ * DTO for updating a subscription (change plan, cancel, etc.)
+ */
+export class UpdateSubscriptionDto {
+  @ApiPropertyOptional({
+    description: 'Stripe plan ID to change to (optional)',
+    example: 'price_1Nyyyyyyy',
+  })
+  @IsOptional()
+  @IsString()
+  plan?: string;
+
+  @ApiPropertyOptional({
+    description: 'Subscription status (optional)',
+    example: 'canceled',
+  })
+  @IsOptional()
+  @IsString()
+  status?: string;
+}
